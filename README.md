@@ -6,7 +6,7 @@ Short description of the project: This project aims to investigate the relations
 
 </br>
 
-Goals: Identify correlations, trends, and insights between variables to help urban planners, companies such as Lime, and policymakers make better informed decisions about micromobility infrastructure and services in the area. The findings from this proect may also contribute to improving the usability and accessibility of micromobility options for people in Austin.
+Goals: Identify correlations and trends between variables to help urban planners, companies such as Lime, and policymakers make better informed decisions about micromobility infrastructure and services in the area. The findings from this proect may also contribute to improving the usability and accessibility of micromobility options for people in Austin.
 
 </br>
 
