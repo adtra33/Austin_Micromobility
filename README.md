@@ -2,11 +2,11 @@
 
 </br>
 
-Short description of the project: This project aims to investigate the relationships and correlations between trip duration or trip distance in micromobility vehicles (e.g., electric scooters or bikes) and various factors in Austin, Texas. Variables of interest include month, day of the week, temperature, wind speed, and precipitation. 
+Short description of the project: This project aims to investigate the relationships and correlations between trip duration or trip distance in micromobility vehicles (e.g., electric scooters or bikes) and various factors in Austin, Texas. The variables of interest include, but are not limited to, month, day of the week, temperature, wind speed, and precipitation.
 
 </br>
 
-Goals: Identify correlations and trends between variables to help urban planners, companies such as Lime, and policymakers make better informed decisions about micromobility infrastructure and services in the area. The findings from this proect may also contribute to improving the usability and accessibility of micromobility options for people in Austin.
+Goals: Identify correlations and trends between variables to help urban planners, companies such as Lime, and policymakers make better informed decisions about micromobility infrastructure and services in the area. The findings from this project may also contribute to improving the usability and accessibility of micromobility options for people in Austin.
 
 </br>
 
