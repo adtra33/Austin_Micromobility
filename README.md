@@ -2,11 +2,11 @@
 
 </br>
 
-short description of the project:
+Short description of the project:
 
 </br>
 
-goals:
+Goals:
 
 </br>
 
@@ -14,12 +14,12 @@ Link to data: https://data.austintexas.gov/Transportation-and-Mobility/Shared-Mi
 
 </br>
 
-some information about the data: 
+Some information about the data: 
 
 </br>
 
-two hypotheses:
+Two hypotheses:
 
 </br>
 
-references: 
+References: 
