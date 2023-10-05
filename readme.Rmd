@@ -24,3 +24,5 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 # Two Hypotheses:
 
 # References:
+Data is provided by Austin Transportation and The City of Austin, Texas at <data.austintexas.gov>
+Weather data is provided by <https://www.weather.gov/wrh/Climate?wfo=ewx>
