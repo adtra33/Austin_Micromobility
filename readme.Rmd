@@ -21,9 +21,9 @@ Identify correlations and trends between variables to help urban planners, compa
 # Some Information About The Data: 
 This dataset contains shared micromobility vehicle trip data from 1970 to 2022 reported to the City of Austin Transportation Department as part of the Shared Small Vehicle Mobility Systems operating rules. The trips included in this dataset have durations less than 24 hours and have trip distances greater than or equal to 0.1 miles and less than 500 miles. Additional weather data and data on 'Council District Street Condition Percent Satisfactory' will be merged with the original micromobility vehicle trip data linked above. This additional data will be considered to analyze the potential effects of these variables, which were not originally included in the shared micromobility vehicle trip data.
 
-# Two Hypotheses:
-The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
-The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
+# Hypotheses:
+1. The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
+2. The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
 
 # References:
 Data is provided by Austin Transportation and The City of Austin, Texas at <https://data.austintexas.gov>
