@@ -66,3 +66,4 @@ ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) +
   scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Days of the Week', y = 'Trip Distance') +
   labs(title = "Average Trip Distance by Day of the Week and Vehicle Type") + labs(fill = "Vehicle Type")
 ```
+=======
