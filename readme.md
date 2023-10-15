@@ -18,6 +18,7 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 
 ## Ethical Concerns:
 1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
+2. Consent: researchers should try to get consent of those who make up the data (i.e., the drivers, or those reporting on the quality of infrastructure).
 
 ## References:
 Data is provided by Austin Transportation and The City of Austin, Texas at <https://data.austintexas.gov>
