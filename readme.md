@@ -16,6 +16,9 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 1. The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
 2. The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
 
+## Ethical Concerns:
+1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
+
 ## References:
 Data is provided by Austin Transportation and The City of Austin, Texas at <https://data.austintexas.gov>
 <br>
