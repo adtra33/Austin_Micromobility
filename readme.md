@@ -20,6 +20,21 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
 2. Consent: researchers should try to get consent of those who make up the data (i.e., the drivers, or those reporting on the quality of infrastructure).
 
+## RRI AREA analysis:
+Anticipate Opportunities:
+<u>Process</u> - the methodology seems to be allowed since the data is given access to the public, as well as in a confined space. 
+<u>Product</u> - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
+<u>Purpose</u> - the research on micro mobility can have impacts socially by providing the information of different times of the year, which can be used for or against micro mobility. Furthermore, many can see if the pros outweigh the cons for allowing many to travel with micro mobility devices more and vice versa, it just depends on what the goal is. 
+<u>People</u> - the targeted stakeholders range from the public to the government, meaning that if the public was given knowledge about this, there could be different planning taken into place to travel less on micro mobility devices. For the government, this could allow different adjustments to policies made on public transportation that could have students use less micro mobility transportation for safety reasons, or even the opposite on where the government makes more lanes to encourage micro mobility more. 
+
+Reflect considerations:
+<u>Process</u> - some mechanisms that are appropriate to look into are the descriptive statistics that need to be included, which does show within the project such as: trip distance, satisfactory levels of street conditions, and other specific variables that deal with the environment. Furthermore, another mechanism is the correlation between different variables and how they connect to each other.
+<u>Product</u> - looking at the consequences, there are both positives and negatives. The positives is that it can improve public safety if understanding the different patterns on environmental changes, as well as creating a much more efficient infrastructure within Austin. The negatives however, could be that there can be different privacy issues that could be shared without consent, as well as discrimination/bias concerns. To take care of these issues, inform the users to get their consent on what the data is going to be used for, and to state whether there is going to be biases or not.
+<u>Purpose</u> - this could raise concerns by different groups or organizations that deals with anything that involves surveillance or privacy that could infringe on an individuals’ rights/freedoms, which to help ensure these groups that there will be no problems, there needs to be clear communication towards the stakeholders, and to have them understand the process and allow different feedbacks/comments on the project.
+<u>People</u> - the project is inclusive to all types of people, going from every gender to every culture and race. The only problem is that this will only include people who use the micro mobility devices that are listed: bicycles, scooters, and electric scooters and moped.
+
+
+
 ## References:
 Data is provided by Austin Transportation and The City of Austin, Texas at <https://data.austintexas.gov>
 <br>
@@ -30,5 +45,10 @@ Council District Street Condition Percent Satisfactory data is provided by <http
 ## Visualizations:
 ![image](https://github.com/adtra33/Austin_Micromobility/assets/143444099/5dfb1890-8e62-44f4-8fc5-6ab5c15e9396)
 ![image](https://github.com/adtra33/Austin_Micromobility/assets/143444099/791578ef-b2dc-432e-8fc3-a751d4a98382)
+
+
+
+
+
 
 
