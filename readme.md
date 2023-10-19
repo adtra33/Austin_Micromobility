@@ -22,10 +22,10 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 
 ## RRI AREA analysis:
 Anticipate Opportunities:
-<u>Process</u> - the methodology seems to be allowed since the data is given access to the public, as well as in a confined space. 
-<u>Product</u> - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
-<u>Purpose</u> - the research on micro mobility can have impacts socially by providing the information of different times of the year, which can be used for or against micro mobility. Furthermore, many can see if the pros outweigh the cons for allowing many to travel with micro mobility devices more and vice versa, it just depends on what the goal is. 
-<u>People</u> - the targeted stakeholders range from the public to the government, meaning that if the public was given knowledge about this, there could be different planning taken into place to travel less on micro mobility devices. For the government, this could allow different adjustments to policies made on public transportation that could have students use less micro mobility transportation for safety reasons, or even the opposite on where the government makes more lanes to encourage micro mobility more. 
+Process- the methodology seems to be allowed since the data is given access to the public, as well as in a confined space. 
+Product - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
+Purpose - the research on micro mobility can have impacts socially by providing the information of different times of the year, which can be used for or against micro mobility. Furthermore, many can see if the pros outweigh the cons for allowing many to travel with micro mobility devices more and vice versa, it just depends on what the goal is. 
+People - the targeted stakeholders range from the public to the government, meaning that if the public was given knowledge about this, there could be different planning taken into place to travel less on micro mobility devices. For the government, this could allow different adjustments to policies made on public transportation that could have students use less micro mobility transportation for safety reasons, or even the opposite on where the government makes more lanes to encourage micro mobility more. 
 
 Reflect considerations:
 <u>Process</u> - some mechanisms that are appropriate to look into are the descriptive statistics that need to be included, which does show within the project such as: trip distance, satisfactory levels of street conditions, and other specific variables that deal with the environment. Furthermore, another mechanism is the correlation between different variables and how they connect to each other.
