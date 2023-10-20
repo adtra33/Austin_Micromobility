@@ -33,6 +33,12 @@ Reflect considerations:
 <u>Purpose</u> - this could raise concerns by different groups or organizations that deals with anything that involves surveillance or privacy that could infringe on an individuals’ rights/freedoms, which to help ensure these groups that there will be no problems, there needs to be clear communication towards the stakeholders, and to have them understand the process and allow different feedbacks/comments on the project.
 <u>People</u> - the project is inclusive to all types of people, going from every gender to every culture and race. The only problem is that this will only include people who use the micro mobility devices that are listed: bicycles, scooters, and electric scooters and moped.
 
+Engage Alternatives:
+Process - to engage a big group of stakeholders, there should be an identification on who the stakeholders are, which ranges from any member in the community, to with different public organizations and even the government. After that, focus on what will interest these stakeholders and what all of them have in common, which after that you will develop a message that is aimed towards everyone.
+Product - Targeting some viewpoints of the stakeholders above, we will look at each individually. The Community their viewpoints would target something along the lines of safety of traveling as well as the convenience of it, government would look into the public interest that looks at infrastructure as well as safety, and different public groups would look into the environmental impacts of these projects as well as having the community involved with micro mobility. 
+Purpose - to get people involved with the work surrounding the project, there should be different methods to reach the public, such as: creating different websites, or social media to spread public awareness, setting up meetings for people who want to attend, or handing out surveys for the community to give feedback.
+People - The research is done for people who will use the data for environmental reasons (researchers and non-profit organizations),reasons pertaining to public safety (government and community groups), and even reasons to have more efficient infrastructure (industrial companies)
+
 
 
 ## References:
