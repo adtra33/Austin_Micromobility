@@ -39,6 +39,12 @@ Product - Targeting some viewpoints of the stakeholders above, we will look at e
 Purpose - to get people involved with the work surrounding the project, there should be different methods to reach the public, such as: creating different websites, or social media to spread public awareness, setting up meetings for people who want to attend, or handing out surveys for the community to give feedback.
 People - The research is done for people who will use the data for environmental reasons (researchers and non-profit organizations),reasons pertaining to public safety (government and community groups), and even reasons to have more efficient infrastructure (industrial companies)
 
+Act Capacities:
+Process - Our research structure could be flexible by having different factors such as allowing a clearer research goal that is very assessable and well-defined. Furthermore, there should always be continuous feedback being given and adapting to those changes would allow a much more structured plan for the project.
+Product - to have social desirability for everyone, there should be methods that should eliminate any biases towards a certain group, and to do that there should be anonymous responses given in a way that still allows the user to access their data to make any changes. Furthermore, there should be clear consent clauses and information that is transparent, which ensures the user that their data will be safe.
+Purpose - to ensure a better future with this project, we can create policies that give off a positive outcome to micro mobility around Austin, as well as addressing any ethical concerns that the public may have on the situation by giving concise and straightforward messages . Furthermore, careful planning can help ensure a better future with this project in the works by providing potential risks and acting against it or even having clear timelines on when the project reaches a certain checkpoint. 
+People - The training that is required for the project is some, but not all: data collection/security, ethical researching, statistical analysis, etc.
+
 
 
 ## References:
