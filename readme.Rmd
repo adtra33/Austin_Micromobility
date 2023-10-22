@@ -57,6 +57,7 @@ Process - Our research structure could be flexible by having different factors s
 Product - to have social desirability for everyone, there should be methods that should eliminate any biases towards a certain group, and to do that there should be anonymous responses given in a way that still allows the user to access their data to make any changes. Furthermore, there should be clear consent clauses and information that is transparent, which ensures the user that their data will be safe.
 Purpose - to ensure a better future with this project, we can create policies that give off a positive outcome to micro mobility around Austin, as well as addressing any ethical concerns that the public may have on the situation by giving concise and straightforward messages . Furthermore, careful planning can help ensure a better future with this project in the works by providing potential risks and acting against it or even having clear timelines on when the project reaches a certain checkpoint.
 People - The training that is required for the project is some, but not all: data collection/security, ethical researching, statistical analysis, etc.
+
 # References:
 Data is provided by Austin Transportation and The City of Austin, Texas at <https://data.austintexas.gov>
 Weather data is provided by <https://www.weather.gov/wrh/Climate?wfo=ewx>
