@@ -25,7 +25,11 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 1. The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
 2. The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
 
-#RRI AREA analysis:
+# Ethical Concerns:
+1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
+2. Consent: researchers should try to get consent of those who make up the data (i.e., the drivers, or those reporting on the quality of infrastructure).
+
+# RRI AREA analysis:
 Anticipate Opportunities:
 
 Process- the methodology seems to be allowed since the data is given access to the public, as well as in a confined space. Product - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
