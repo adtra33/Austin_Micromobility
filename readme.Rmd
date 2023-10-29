@@ -99,4 +99,49 @@ ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) +
   scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Days of the Week', y = 'Trip Distance') +
   labs(title = "Average Trip Distance by Day of the Week and Vehicle Type") + labs(fill = "Vehicle Type")
 ```
+
+
+
+```{r temp vs. duration}
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+
+# Import trip data for the year 2020
+y2020 <- read.csv('SharedMicromobilityVehicleTrips.csv')
+
+# Create a new column 'Month2' by recoding the 'Month' column with an ordered factor.
+y2020 <- y2020 %>% mutate(Month2 = recode(Month, 'Jan','Feb','Mar','Apr',
+                                         'May','Jun','Jul','Aug','Sep','Oct',
+                                         'Nov','Dec'), ordered = TRUE)
+
+# Import monthly mean average temperature data for Austin
+austin_temperature_data <- read.csv('AustinTemperatureData.csv')
+
+# Filter the temperature data for the year 2020
+austin_temperature_data_2020 <- austin_temperature_data %>% filter(Year == 2020)
+
+# Merge the trip data and filtered temperature data based on the 'Month2' column
+merged_data <- merge(y2020, austin_temperature_data_2020, by.x = "Month2", by.y = "Month")
+
+# Define the order of months for plotting.
+level_order_months <- c('Jan','Feb','Mar','Apr',
+                 'May','Jun','Jul','Aug','Sep','Oct',
+                 'Nov','Dec')
+
+# Scatter plot to visualize the relationship between 'Average Temperature' and 'Trip Duration' by 'Vehicle Type'.
+ggplot(data = merged_data, aes(x = `Average Temperature`, y = `trip_duration`, color = `vehicle_type`)) +
+  geom_point() +
+  labs(x = 'Average Temperature (Austin)', y = 'Trip Duration') +
+  labs(title = "Scatter Plot of Temperature vs. Trip Duration by Vehicle Type") +
+  scale_color_manual(values = c('red', 'green', 'blue'))
+
+# Correlation between Average Temperature and Trip Duration
+correlation <- cor(merged_data$`Average Temperature`, merged_data$`trip_duration`)
+
+# One-way ANOVA to compare trip duration by temperature level
+anova_result <- aov(`trip_duration` ~ `Average Temperature`, data = merged_data)
+summary(anova_result)
+```
+
 =======
