@@ -15,6 +15,9 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 ## Hypotheses:
 1. The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
 2. The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
+3. The mean trip distances and mean trip durations are not equal across the different vehicles types:
+   ![image](C:\Users\jonah\Dropbox (Personal)\PC\Downloads\Ridgeline Plot of Trip Distance by Vehicle Type (without outliers).png)
+   ![image](C:\Users\jonah\Dropbox (Personal)\PC\Downloads\Ridgeline Plot of Trip Duration by Vehicle Type (without outliers).png)
 
 ## Ethical Concerns:
 1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
