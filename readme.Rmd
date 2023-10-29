@@ -24,6 +24,7 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 # Hypotheses:
 1. The mean trip distances for micromobility vehicles are not equal across different months of the year in 2020.
 2. The mean trip distances for micromobility vehicles are not equal across different days of the week in 2020.
+3. The mean trip distances and trip durations are not equal across different vehicle types.
 
 # Ethical Concerns:
 1. Environmental Impact: research into micromobility vehicles may increase/encourage more usage of vehicles that are negatively impacting our environment.
@@ -142,6 +143,34 @@ correlation <- cor(merged_data$`Average Temperature`, merged_data$`trip_duration
 # One-way ANOVA to compare trip duration by temperature level
 anova_result <- aov(`trip_duration` ~ `Average Temperature`, data = merged_data)
 summary(anova_result)
+```
+
+
+
+```{r vehicle type vs. duration}
+# Load required libraries
+library(ggplot2)
+library(ggridges)
+library(dplyr)
+
+# Import trip data for the year 2020
+Trips2020 <- read.csv('SharedMicromobilityVehicleTrips.csv')
+
+ggplot(Trips2020, aes(x = Trip.Duration, y = Vehicle.Type, fill = Vehicle.Type)) +
+  geom_density_ridges() +
+  theme_ridges() +
+  labs(x = "Trip Duration (s)", y = "Vehicle Type") +
+  scale_fill_brewer(palette = "Set1") +  
+  ggtitle("Ridgeline Plot of Trip Duration by Vehicle Type") + 
+  xlim(0, 2217.5) #Above 2217.5 is outliers
+
+ggplot(Trips2020, aes(x = Trip.Distance, y = Vehicle.Type, fill = Vehicle.Type)) +
+  geom_density_ridges() +
+  theme_ridges() +
+  labs(x = "Trip Distance (m)", y = "Vehicle Type") +
+  scale_fill_brewer(palette = "Set1") +  
+  ggtitle("Ridgeline Plot of Trip Distance by Vehicle Type") + 
+  xlim(0, 5451.5) #Above 5451.5 is outliers
 ```
 
 =======
