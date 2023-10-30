@@ -103,49 +103,46 @@ ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) +
 
 
 
-```{r trip duration and temp}
+```{r trip duration and temp(2020)}
 library(ggplot2)
 library(dplyr)
 
-# Import trip data for the year 2020
-y2020 <- Trips2020
-
-# Filter the trip data to include only the year 2020
-y2020 <- y2020 %>% filter(Year == 2020)
+# Load data from the original micromobility dataset for the year 2020
+y2020 <- read.csv('Trips2020.csv')
 
 # Create a new column 'Month2' by recoding the 'Month' column with an ordered factor.
-y2020 <- y2020 %>% mutate(Month2 = recode(Month, 'Jan','Feb','Mar','Apr',
-                                         'May','Jun','Jul','Aug','Sep','Oct',
-                                         'Nov','Dec'), ordered = TRUE)
+y2020 <- y2020 %>% mutate(Month2 = recode(Month, 'Jan', 'Feb', 'Mar', 'Apr',
+                                        'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                                        'Nov', 'Dec'), ordered = TRUE)
 
-# Import monthly mean average temperature data for Austin for 2020
-austin_temperature_data <- AustinTemperatureData
+# Define the order of months for plotting.
+level_order_months <- c('Jan', 'Feb', 'Mar', 'Apr',
+                        'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                        'Nov', 'Dec')
 
-# Rename the "Month" column in austin_temperature_data to match the merged_data
-names(austin_temperature_data)[names(austin_temperature_data) == "Month"] <- "Month2"
+# Create a data frame with average temperature for each month in 2020
+average_temperature_data <- data.frame(
+  Month2 = factor(c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'), 
+                  levels = c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
+  Average_Temperature = c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
+)
 
-# Convert the "Month" column in the temperature data to the same data type as "Month2"
-austin_temperature_data$Month2 <- factor(austin_temperature_data$Month2, levels = levels(y2020$Month2))
+# Create a plot for average trip duration
+plot1 <- ggplot(data = y2020, aes(x = Month2, y = `Trip Duration`, fill = `Vehicle Type`)) + 
+  geom_bar(aes(y = `Trip Duration`, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean) + 
+  scale_fill_manual(values = c('red', 'green', 'blue')) + labs(x = 'Month', y = 'Value') +
+  labs(title = "Average Trip Duration and Average Temperature by Month") + labs(fill = "Vehicle Type") +
+  scale_y_continuous(sec.axis = sec_axis(trans = ~ ., name = "Average Temperature"))
 
-# Merge the trip data with temperature data based on the 'Month2' column
-merged_data <- y2020 %>% 
-  left_join(austin_temperature_data, by = c("Month2" = "Month2"))
+# Create a plot for average temperature
+plot2 <- ggplot(data = average_temperature_data, aes(x = Month2, y = Average_Temperature)) +
+  geom_bar(stat = 'identity', fill = 'yellow') +
+  labs(x = 'Month (2020)', y = NULL) +
+  scale_y_continuous(name = "Average Temperature")
 
-# Check the structure of the merged data
-str(merged_data)
-
-# Data Cleaning: Convert 'Trip Duration' to numeric
-merged_data$`Trip Duration` <- as.numeric(as.character(merged_data$`Trip Duration`))
-
-# Create a bar graph to visualize the relationship between 'Average Temperature' and 'Trip Duration' by 'Vehicle Type' for each month.
-ggplot(data = merged_data, aes(x = Month2, y = `Trip Duration`, fill = `Vehicle Type`)) +
-  geom_bar(stat = 'identity') +
-  labs(x = 'Month (2020)', y = 'Trip Duration') +
-  labs(title = "Bar Graph of Trip Duration by Vehicle Type for Each Month") +
-  scale_fill_manual(values = c('red', 'green', 'blue')) +
-  scale_x_discrete(limits = levels(merged_data$Month2))
-
-
+# Combine the plots using grid.arrange
+library(gridExtra)
+grid.arrange(plot1, plot2, ncol = 2)
 ```
 
 
