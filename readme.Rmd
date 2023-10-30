@@ -103,46 +103,49 @@ ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) +
 
 
 
-```{r temp vs. duration}
-# Load required libraries
+```{r trip duration and temp}
 library(ggplot2)
 library(dplyr)
 
 # Import trip data for the year 2020
-y2020 <- read.csv('SharedMicromobilityVehicleTrips.csv')
+y2020 <- Trips2020
+
+# Filter the trip data to include only the year 2020
+y2020 <- y2020 %>% filter(Year == 2020)
 
 # Create a new column 'Month2' by recoding the 'Month' column with an ordered factor.
 y2020 <- y2020 %>% mutate(Month2 = recode(Month, 'Jan','Feb','Mar','Apr',
                                          'May','Jun','Jul','Aug','Sep','Oct',
                                          'Nov','Dec'), ordered = TRUE)
 
-# Import monthly mean average temperature data for Austin
-austin_temperature_data <- read.csv('AustinTemperatureData.csv')
+# Import monthly mean average temperature data for Austin for 2020
+austin_temperature_data <- AustinTemperatureData
 
-# Filter the temperature data for the year 2020
-austin_temperature_data_2020 <- austin_temperature_data %>% filter(Year == 2020)
+# Rename the "Month" column in austin_temperature_data to match the merged_data
+names(austin_temperature_data)[names(austin_temperature_data) == "Month"] <- "Month2"
 
-# Merge the trip data and filtered temperature data based on the 'Month2' column
-merged_data <- merge(y2020, austin_temperature_data_2020, by.x = "Month2", by.y = "Month")
+# Convert the "Month" column in the temperature data to the same data type as "Month2"
+austin_temperature_data$Month2 <- factor(austin_temperature_data$Month2, levels = levels(y2020$Month2))
 
-# Define the order of months for plotting.
-level_order_months <- c('Jan','Feb','Mar','Apr',
-                 'May','Jun','Jul','Aug','Sep','Oct',
-                 'Nov','Dec')
+# Merge the trip data with temperature data based on the 'Month2' column
+merged_data <- y2020 %>% 
+  left_join(austin_temperature_data, by = c("Month2" = "Month2"))
 
-# Scatter plot to visualize the relationship between 'Average Temperature' and 'Trip Duration' by 'Vehicle Type'.
-ggplot(data = merged_data, aes(x = `Average Temperature`, y = `trip_duration`, color = `vehicle_type`)) +
-  geom_point() +
-  labs(x = 'Average Temperature (Austin)', y = 'Trip Duration') +
-  labs(title = "Scatter Plot of Temperature vs. Trip Duration by Vehicle Type") +
-  scale_color_manual(values = c('red', 'green', 'blue'))
+# Check the structure of the merged data
+str(merged_data)
 
-# Correlation between Average Temperature and Trip Duration
-correlation <- cor(merged_data$`Average Temperature`, merged_data$`trip_duration`)
+# Data Cleaning: Convert 'Trip Duration' to numeric
+merged_data$`Trip Duration` <- as.numeric(as.character(merged_data$`Trip Duration`))
 
-# One-way ANOVA to compare trip duration by temperature level
-anova_result <- aov(`trip_duration` ~ `Average Temperature`, data = merged_data)
-summary(anova_result)
+# Create a bar graph to visualize the relationship between 'Average Temperature' and 'Trip Duration' by 'Vehicle Type' for each month.
+ggplot(data = merged_data, aes(x = Month2, y = `Trip Duration`, fill = `Vehicle Type`)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Month (2020)', y = 'Trip Duration') +
+  labs(title = "Bar Graph of Trip Duration by Vehicle Type for Each Month") +
+  scale_fill_manual(values = c('red', 'green', 'blue')) +
+  scale_x_discrete(limits = levels(merged_data$Month2))
+
+
 ```
 
 
