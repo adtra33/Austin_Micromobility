@@ -145,7 +145,85 @@ library(gridExtra)
 grid.arrange(plot1, plot2, ncol = 2)
 ```
 
+```{r Avg Monthly Precipitation vs Duration and Distance}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
 
+#change to folder where csv files are located, *change as needed
+setwd("...")
+
+## INITIALIZE Y2020 DATA
+# read csv files
+y2020 <- read.csv('Trips2020.csv')
+
+# Recode 'Month' column with an ordered factor.
+y2020 <-  y2020 %>% mutate(Month = recode(Month, 'Jan','Feb','Mar','Apr',
+                                           'May','Jun','Jul','Aug','Sep','Oct',
+                                           'Nov','Dec'), ordered = TRUE)
+
+# Create another new column 'DOW' by recoding the 'Day.of.Week' column with an ordered factor.
+y2020 <-  y2020 %>% mutate(Day.of.Week = recode(Day.of.Week + 1, 'Sun','Mon','Tues',
+                                        'Wed','Thurs','Fri', 'Sat'), ordered = TRUE)
+# Define the order of months for plotting.
+level_order_months <- c('Jan','Feb','Mar','Apr',
+                        'May','Jun','Jul','Aug','Sep','Oct',
+                        'Nov','Dec')
+
+# Define the order of days of the week for plotting.
+level_order_dow <- c('Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat')
+
+## INITIALIZE PRECIPITATION DATA
+# select only 2020 data from csv
+precip2020 <- read.csv('Precipitation_19-21.csv') %>% slice(2)
+
+# tidy data to fit y2020 data
+precip2020 <- precip2020 %>% pivot_longer(c('January', 'February', 'March',
+                                     'April', 'May', 'June', 'July',
+                                     'August', 'September', 'October',
+                                     'November', 'December'),
+                                   names_to = 'Month', values_to = 'Precipitation')
+
+# change month name to fit y2020 data
+rep_str <- c('January' = 'Jan', 'February' ='Feb', 'March' = 'Mar',
+             'April' = 'Apr', 'May' = 'May', 'June' = 'Jun', 'July'= 'Jul',
+             'August' = 'Aug', 'September' ='Sep', 'October' ='Oct',
+             'November' = 'Nov', 'December' = 'Dec')
+precip2020$Month <- str_replace_all(precip2020$Month, rep_str)
+
+# Join precip data to y2020
+y2020 <- y2020 %>% full_join(precip2020, relationship = 'many-to-many')
+
+#Convert duration from seconds to minutes
+y2020$Trip.Duration = y2020$Trip.Duration/60
+
+##Create 2 adjacent bar graphs with two y axes and month as x axis. Duration vs Precipitation
+#initial plot data based on precipitation
+ggplot(data = y2020, aes(x = Month, y = Precipitation)) +
+  #create second axis: trip duration
+  scale_y_continuous(name = 'Inches', limits = c(0,8), sec.axis = sec_axis( ~. , name = 'Minutes')) +
+  #create 1st bar graph for month and precipitation
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Precipitation, fill = 'blue'), position = position_nudge(x = -0.15), 
+           width = 0.3, stat = 'summary', fun = 'mean') +
+  #create 2nd bar graph for month and trip duration
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Trip.Duration, fill = 'red'), position = position_nudge(x = 0.15), 
+           width = 0.3, stat = 'summary') +
+  labs(title = 'Average Trip Duration in Relation to Average Monthly Precipitation') + 
+  scale_fill_manual(name = 'Variable', values =c('blue'='blue','red'='red'), guide = 'legend', labels = c('Precipitation','Duration'))
+
+#Same as above just change Duration to Distance
+ggplot(data = y2020, aes(x = Month, y = Precipitation)) +
+  #create second axis: trip duration
+  scale_y_continuous(name = 'Inches', limits = c(0,8), sec.axis = sec_axis( ~.*100 , name = 'Meters')) +
+  #create 1st bar graph for month and precipitation
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Precipitation, fill = 'blue'), position = position_nudge(x = -0.15), 
+           width = 0.3, stat = 'summary', fun = 'mean') +
+  #create 2nd bar graph for month and trip distance
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Trip.Distance/100, fill = 'red'), position = position_nudge(x = 0.15), 
+           width = 0.3, stat = 'summary') +
+  labs(title = 'Average Trip Distance in Relation to Average Monthly Precipitation') +
+  scale_fill_manual(name = 'Variable', values =c('blue'='blue','red'='red'), guide = 'legend', labels = c('Precipitation','Distance'))
+```
 
 ```{r vehicle type vs. duration}
 # Load required libraries
