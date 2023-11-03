@@ -78,6 +78,9 @@ Council District Street Condition Percent Satisfactory data is provided by <http
 ## Visualizations:
 ![image](https://github.com/adtra33/Austin_Micromobility/assets/143444099/5dfb1890-8e62-44f4-8fc5-6ab5c15e9396)
 ![image](https://github.com/adtra33/Austin_Micromobility/assets/143444099/791578ef-b2dc-432e-8fc3-a751d4a98382)
+![Dist Precip](https://github.com/adtra33/Austin_Micromobility/assets/145406177/19b4f6e6-422a-477b-8a66-642c510bb827)
+![Dur Precip](https://github.com/adtra33/Austin_Micromobility/assets/145406177/3f963e2e-e9d6-44a7-bdab-29eaeea7a42c)
+
 
 
 
