@@ -83,7 +83,7 @@ Council District Street Condition Percent Satisfactory data is provided by <http
 ![image4](https://github.com/adtra33/Austin_Micromobility/assets/130238318/160d1884-7af2-4cee-a2ef-409dad05bdd5)
 ![image3](https://github.com/adtra33/Austin_Micromobility/assets/130238318/de6b0b07-e77a-4f9b-977c-3796bcf4e9fd)
 ![image1](https://github.com/adtra33/Austin_Micromobility/assets/130238318/adafd32d-e2f5-4eba-8fcc-9056e53ea2e7)
-Note: The following graphs do not include bike data, because that data does not exist for a good chunk of the year, April-September.
+/**Note: The following graphs do not include bike data, because that data does not exist for a good chunk of the year, April-September.**
 ![Trip Duration vs Month Line Graph](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Duration%20vs%20Month%20Line%20Graph.png)
 ![Trip Distance vs Month Line Graph](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Distance%20vs%20Month%20Line%20Graph.png)
 
