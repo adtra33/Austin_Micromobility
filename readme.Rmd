@@ -102,7 +102,7 @@ ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) +
 ```
 
 
-```{r Average Trip Duration by Month and Vehicle Type}
+```{r trip duration and temperature vs. month bar graph}
 library(ggplot2)
 library(dplyr)
 
@@ -119,66 +119,74 @@ level_order_months <- c('Jan', 'Feb', 'Mar', 'Apr',
                         'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
                         'Nov', 'Dec')
 
+# Temperature data
+average_temperature <- c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
 
+# Create a new dataframe with Month and Average_Temperature
+temperature_data <- data.frame(Month2 = level_order_months, Average_Temperature = average_temperature)
 
+# Merge the temperature data with the Trips2020 dataset
+combined_data <- merge(y2020, temperature_data, by = "Month2")
 
-# Bar plot to visualize average 'Trip Duration' by 'Month2' (months in order) and 'Vehicle Type'.
-ggplot(data = y2020, aes(x = Month2, y = `Trip Duration`, fill = `Vehicle Type`)) + 
+# Bar plot to visualize average 'Trip Duration' by 'Month2' (months in order), 'Vehicle Type', and 'Average_Temperature'.
+ggplot(data = combined_data, aes(x = Month2, y = `Trip Duration`, fill = `Vehicle Type`)) + 
   geom_bar(aes(y = `Trip Duration`, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
-  scale_fill_manual(values = c('red', 'green', 'blue')) + labs(x = 'Month', y = 'Trip Duration') +
-  labs(title = "Average Trip Duration by Month and Vehicle Type") + labs(fill = "Vehicle Type")
-
+  geom_line(aes(x = Month2, y = Average_Temperature, group = 1), color = "purple", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c('pink', 'green', 'orange')) + 
+  labs(x = 'Month', y = 'Trip Duration') +
+  labs(title = "Average Trip Duration by Month, Vehicle Type, and Temperature") + 
+  labs(fill = "Vehicle Type") +
+  theme(axis.title.y.left = element_text(color = "black")) +
+  scale_y_continuous(name = "Trip Duration",
+                     breaks = seq(0, max(y2020$`Trip Duration`), by = 10),
+                     labels = seq(0, max(y2020$`Trip Duration`), by = 10)) +
+  theme(axis.title.y.right = element_text(color = "blue")) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ ., name = "Average Temperature", 
+                        breaks = seq(0, max(average_temperature), by = 20),
+                        labels = seq(0, max(average_temperature), by = 20))
+  ) +
+  theme_minimal()  # Optionally, you can change the theme
 ```
 
-```{r Bar Graph of Average Temperature for Each Month in Austin (2020)}
-library(ggplot2)
 
-# Create a data frame with average temperature for each month in 2020
-average_temperature_data <- data.frame(
-  Month2 = factor(c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'), 
-                  levels = c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-  Average_Temperature = c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
-)
-
-# Create a bar graph to visualize the average temperature for each month
-ggplot(data = average_temperature_data, aes(x = Month2, y = Average_Temperature)) +
-  geom_bar(stat = 'identity', fill = 'yellow') +
-  labs(x = 'Month (2020)', y = 'Average Temperature') +
-  labs(title = "Bar Graph of Average Temperature for Each Month in Austin (2020)") +
-  scale_x_discrete(limits = levels(average_temperature_data$Month2))
-```
-
-```{r Average Trip Duration by Day of the Week and Vehicle Type}
+```{r trip duration vs. temperature scatterplot}
 library(ggplot2)
 library(dplyr)
 
 # Data from the original micromobility dataset for the year 2020
 y2020 <- Trips2020
 
-# Create a new column 'DayOfWeek' with full day names based on numeric values.
-y2020 <- y2020 %>%
-  mutate(DayOfWeek = case_when(
-    `Day of Week` == 0 ~ "Monday",
-    `Day of Week` == 1 ~ "Tuesday",
-    `Day of Week` == 2 ~ "Wednesday",
-    `Day of Week` == 3 ~ "Thursday",
-    `Day of Week` == 4 ~ "Friday",
-    `Day of Week` == 5 ~ "Saturday",
-    `Day of Week` == 6 ~ "Sunday",
-    TRUE ~ "Unknown"
-  ))
+# Create a new column 'Month2' by recoding the 'Month' column with an ordered factor.
+y2020 <- y2020 %>% mutate(Month2 = recode(Month, 'Jan', 'Feb', 'Mar', 'Apr',
+                                        'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                                        'Nov', 'Dec'), ordered = TRUE)
 
-# Define the order of days of the week for plotting.
-level_order_dow <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+# Define the order of months for plotting.
+level_order_months <- c('Jan', 'Feb', 'Mar', 'Apr',
+                        'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                        'Nov', 'Dec')
 
-# Bar plot to visualize average 'Trip Duration' by 'DayOfWeek' and 'Vehicle Type'.
-ggplot(data = y2020, aes(x = factor(DayOfWeek, levels = level_order_dow), y = `Trip Duration`, fill = `Vehicle Type`)) +
-  geom_bar(stat = 'summary', fun = mean, position = 'dodge') +
-  scale_fill_manual(values = c('red', 'green', 'blue')) +
-  labs(x = 'Day of the Week', y = 'Trip Duration') +
-  labs(title = 'Average Trip Duration by Day of the Week and Vehicle Type') +
-  labs(fill = 'Vehicle Type')
+# Temperature data
+average_temperature <- c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
+
+# Create a new dataframe with Month and Average_Temperature
+temperature_data <- data.frame(Month2 = level_order_months, Average_Temperature = average_temperature)
+
+# Merge the temperature data with the Trips2020 dataset
+combined_data <- merge(y2020, temperature_data, by = "Month2")
+
+ggplot(data = combined_data, aes(x = Average_Temperature, y = `Trip Duration`, color = `Vehicle Type`)) +
+  geom_point(size = 2) +
+  labs(title = "Scatter Plot of Temperature vs. Trip Duration",
+       x = "Average Temperature",
+       y = "Trip Duration") +
+  scale_color_manual(values = c('green', 'red', 'blue'))  # Adjust colors as needed
 ```
+
+
+
+
 
 ```{r Avg Monthly Precipitation vs Duration and Distance}
 library(ggplot2)
