@@ -90,5 +90,11 @@ Council District Street Condition Percent Satisfactory data is provided by <http
 ![Trip Duration vs Month Line Graph](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Duration%20vs%20Month%20Line%20Graph.png)
 ![Trip Distance vs Month Line Graph](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Distance%20vs%20Month%20Line%20Graph.png)
 
-
+## Graphs for all 3 years:
+![Average Trip Distance by Day of the Week and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Distance%20by%20Day%20of%20the%20Week%20and%20Vehicle%20Type.png)
+![Average Trip Distance by Hour of Day and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Distance%20by%20Hour%20of%20Day%20and%20Vehicle%20Type.png)
+![Average Trip Distance by Month of the Year and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Distance%20by%20Month%20of%20the%20Year%20and%20Vehicle%20Type.png)
+![Average Trip Duration by Day of the Week and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Duration%20by%20Day%20of%20the%20Week%20and%20Vehicle%20Type.png)
+![Average Trip Duration by Hour of Day and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Duration%20by%20Hour%20of%20Day%20and%20Vehicle%20Type.png)
+![Average Trip Duration by Month of the Year and Vehicle Type](https://github.com/jonaha25/jonaha.github.io/blob/main/Average%20Trip%20Duration%20by%20Month%20of%20the%20Year%20and%20Vehicle%20Type.png)
 
