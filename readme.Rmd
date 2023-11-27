@@ -292,6 +292,74 @@ ggplot(Trips2020, aes(x = Trip.Distance, y = Vehicle.Type, fill = Vehicle.Type))
   scale_fill_brewer(palette = "Set1") +  
   ggtitle("Ridgeline Plot of Trip Distance by Vehicle Type") + 
   xlim(0, 5451.5) #Above 5451.5 is outliers
+
+
+## Percent Satisfactory Hypothesis 1
+
+# Filter out rows with NA in Percent Satisfactory
+filtered_data <- Trips2020_With_Street_Conditions[!is.na(Trips2020_With_Street_Conditions$`Percent Satisfactory`),]
+
+# Group by Percent Satisfactory and calculate mean trip distance and duration
+result_data1 <- filtered_data %>%
+  group_by(`Percent Satisfactory`, `Vehicle Type`) %>%
+  summarise(
+    Mean_Trip_Distance = mean(`Trip Distance`),
+    Unique_Council_Districts = unique(`Council District`)[1]
+  ) %>%
+  spread(`Vehicle Type`, `Mean_Trip_Distance`)
+
+# Reshape the data to long format for Trip Distance
+result_data_long1 <- result_data1 %>%
+  pivot_longer(cols = c(bicycle, moped, scooter), names_to = "Vehicle_Type", values_to = "Mean_Trip_Distance")
+
+# Order the levels of Vehicle_Type
+result_data_long1$Vehicle_Type <- factor(result_data_long1$Vehicle_Type, levels = c("scooter", "moped", "bicycle"))
+
+# Order the data by Mean_Trip_Distance within each Percent Satisfactory level
+result_data_long1 <- result_data_long %>%
+  arrange(`Percent Satisfactory`, desc(Mean_Trip_Distance))
+
+# Create the plot with facets for each vehicle type (Trip Distance)
+p1 <- ggplot(data = result_data_long1, aes(x = reorder(Unique_Council_Districts, `Percent Satisfactory`), y = Mean_Trip_Distance, fill = Vehicle_Type)) +
+  geom_col(position = "dodge", width = 0.5) +
+  scale_fill_manual(values = c('blue', 'green', 'red')) +
+  labs(x = 'Council District', y = 'Mean Trip Distance') +
+  ggtitle("Average Vehicle Duration by Council District (Ordered by Ascending District Percent Satisfactory) and Vehicle Type") +
+  facet_wrap(~Vehicle_Type, scales = "free_y", ncol = 1) +
+  geom_text(aes(label = `Percent Satisfactory`), position = position_dodge(width = 0.03), vjust = 0, color = 'black')
+
+# Group by Percent Satisfactory and calculate mean trip distance and duration
+result_data2 <- filtered_data %>%
+  group_by(`Percent Satisfactory`, `Vehicle Type`) %>%
+  summarise(
+    Mean_Trip_Duration = mean(`Trip Duration`),
+    Unique_Council_Districts = unique(`Council District`)[1]
+  ) %>%
+  spread(`Vehicle Type`, `Mean_Trip_Duration`)
+
+# Reshape the data to long format for Trip Distance
+result_data_long2 <- result_data2 %>%
+  pivot_longer(cols = c(bicycle, moped, scooter), names_to = "Vehicle_Type", values_to = "Mean_Trip_Duration")
+
+# Order the levels of Vehicle_Type
+result_data_long2$Vehicle_Type <- factor(result_data_long2$Vehicle_Type, levels = c("scooter", "moped", "bicycle"))
+
+# Order the data by Mean_Trip_Distance within each Percent Satisfactory level
+result_data_long2 <- result_data_long2 %>%
+  arrange(`Percent Satisfactory`, desc(Mean_Trip_Duration))
+
+p2 <- ggplot(data = result_data_long2, aes(x = reorder(Unique_Council_Districts, `Percent Satisfactory`), y = Mean_Trip_Duration, fill = Vehicle_Type)) +
+  geom_col(position = "dodge", width = 0.5) +
+  scale_fill_manual(values = c('blue', 'green', 'red')) +
+  labs(x = 'Council District', y = 'Mean Trip Duration') +
+  ggtitle("Average Vehicle Duration by Council District (Ordered by Ascending District Percent Satisfactory) and Vehicle Type") +
+  facet_wrap(~Vehicle_Type, scales = "free_y", ncol = 1) +
+  geom_text(aes(label = `Percent Satisfactory`), position = position_dodge(width = 0.03), vjust = 0, color = 'black')
+
+# Display plots
+p1
+p2
+
 ```
 
 =======
