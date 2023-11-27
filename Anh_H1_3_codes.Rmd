@@ -1,0 +1,269 @@
+---
+title: "project analysis 1"
+author: "anh"
+date: "2023-11-21"
+output: html_document
+---
+
+### Plotting
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+
+```{r}
+# Data from original micromobility dataset for the year 2020
+y2020 <- read.csv('Trips2020.csv')
+head(y2020)
+```
+
+ 
+```{r}
+# Create a new column 'Month2' by recoding the 'Month' column with an ordered factor
+y2020 <-  y2020 %>% mutate(Month2 = recode(Month, 'Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep','Oct', 'Nov','Dec'))
+
+# Create another new column 'DOW' by recoding the 'Day.of.Week' column with an ordered factor.
+y2020 <-  y2020  %>% mutate(DOW = recode(Day.of.Week + 1, 'Sun','Mon','Tues', 'Wed','Thurs','Fri', 'Sat'))
+
+# Choose only some specific columns:
+y2020 <- y2020 %>% select(-"Hour")
+
+# if stating district and ending district isn't the same, eliminate rows: ONLY AFTER 
+#y2020 <- y2020 %>% filter(Council.District..Start. == Council.District..End.)
+
+# filter NAs:
+head(y2020)
+```
+
+## Hypothesis 1: Trip Distance&Duration by Month&DOW without the contexts of Temperatre or Precipitation
+```{r}
+# Define the order of months for plotting.
+level_order_months <- c('Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep','Oct', 'Nov','Dec')
+
+# Define the order of days of the week for plotting.
+level_order_dow <- c('Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat')
+
+# Bar plot to visualize average 'Trip.Distance' by 'Month2' (months in order) and 'Vehicle.Type'.
+trip_distance_months_h1 <- ggplot(data = y2020, aes(x = Month2, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Month', y = 'Trip Distance') +
+  labs(title = "Average Trip Distance by Month and Vehicle Type") + labs(fill = "Vehicle Type")
+trip_distance_months_h1
+
+# Bar plot to visualize average 'Trip.Distance' by 'DOW' (day of the week) and 'Vehicle.Type'.
+trip_distance_DOW_h1 <- ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(DOW, levels = level_order_dow)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Days of the Week', y = 'Trip Distance') +
+  labs(title = "Average Trip Distance by Day of the Week and Vehicle Type") + labs(fill = "Vehicle Type")
+trip_distance_DOW_h1
+```
+
+```{r}
+# Bar plot to visualize average 'Trip.Duration' by 'Month2' (months in order) and 'Vehicle.Type'.
+trip_duration_months_h1 <- ggplot(data = y2020, aes(x = Month2, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('yellow','pink','orange')) + labs(x = 'Month', y = 'Trip Duration') +
+  labs(title = "Average Trip Duration by Month and Vehicle Type") + labs(fill = "Vehicle Type")
+trip_duration_months_h1
+
+# Bar plot to visualize average 'Trip.Duration' by 'DOW' (day of the week) and 'Vehicle.Type'.
+trip_duration_DOW_h1 <- ggplot(data = y2020, aes(x = DOW, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(DOW, levels = level_order_dow)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('yellow','pink','orange')) + labs(x = 'Days of the Week', y = 'Trip Duration') +
+  labs(title = "Average Trip Duration by Day of the Week and Vehicle Type") + labs(fill = "Vehicle Type")
+trip_duration_DOW_h1
+```
+
+***Would stacked bar graphs or side-by-side bars better?????***
+***Should I add the "TRIP DURATION"???? redundance???***
+
+
+## Hypothesis 2: Average Trip Duration&Distance in Relation to Average Monthly Temperature:
+
+```{r}
+# Temperature data
+Average_Temperature <- c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
+
+# Create a new dataframe with Month and Average_Temperature
+temperature_data <- data.frame(Month2 = level_order_months, Average_Temperature = Average_Temperature)
+
+temperature_data
+
+# Merge the temperature data with the Trips2020 dataset
+y2020_temp <- merge(y2020, temperature_data, by = "Month2")
+
+head(y2020_temp)
+```
+```{r}
+# Bar plot to visualize average 'Trip Distance' of each 'Vehicle Type' by 'Month2', and 'Average_Temperature'
+trip_distance_avg_temp_by_month_h2 <- ggplot(data = y2020_temp, aes(x = Month2, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  geom_line(aes(x = Month2, y = Average_Temperature, group = 1), color = "purple", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c('pink', 'green', 'orange')) + 
+  labs(x = 'Month', y = 'Trip Distance') +
+  labs(title = "Average Trip Distance and Average Temperature by Month for each Vehicle Type") + 
+  labs(fill = "Vehicle Type") +
+  theme(axis.title.y.left = element_text(color = "black")) +
+  scale_y_continuous(name = "Trip Distance",
+                     breaks = seq(0, max(y2020_temp$Trip.Distance), by = 10),
+                     labels = seq(0, max(y2020_temp$Trip.Distance), by = 10)) +
+  theme(axis.title.y.right = element_text(color = "blue")) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ ., name = "Average Temperature", 
+                        breaks = seq(0, max(Average_Temperature), by = 10),
+                        labels = seq(0, max(Average_Temperature), by = 10))) +
+  theme_minimal()  # Optionally, you can change the theme
+trip_distance_avg_temp_by_month_h2
+```
+
+```{r}
+# Bar plot to visualize average 'Trip Duration' of each 'Vehicle Type' by 'Month2', and 'Average_Temperature'
+trip_duration_avg_temp_by_month_h2 <- ggplot(data = y2020_temp, aes(x = Month2, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  geom_line(aes(x = Month2, y = Average_Temperature, group = 1), color = "purple", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c('pink', 'green', 'orange')) + 
+  labs(x = 'Month', y = 'Trip Duration') +
+  labs(title = "Average Trip Duration and Average Temperature by Month for each Vehicle Type") + 
+  labs(fill = "Vehicle Type") +
+  theme(axis.title.y.left = element_text(color = "black")) +
+  scale_y_continuous(name = "Trip Duration",
+                     breaks = seq(0, max(y2020_temp$Trip.Duration), by = 10),
+                     labels = seq(0, max(y2020_temp$Trip.Duration), by = 10)) +
+  theme(axis.title.y.right = element_text(color = "blue")) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ ., name = "Average Temperature", 
+                        breaks = seq(0, max(Average_Temperature), by = 20),
+                        labels = seq(0, max(Average_Temperature), by = 20))) +
+  theme_minimal()  # Optionally, you can change the theme
+trip_duration_avg_temp_by_month_h2
+```
+
+***Want to add average temperature line (if line graph is the best option to show monthly average temperature in this case) with the bar garph of trip distance by vehicle types of each month (if bar graph is a good option)***
+
+
+
+
+## Hypothesis 3: Average Trip Duration&Distance in Relation to Average Monthly Precipitation:
+```{r}
+# load the data
+AustinPrecipitationData <- read_csv("AustinPrecipitationData.csv")
+AustinPrecipitationData
+
+# filter out year 2020 info
+AustinPrecipitationData_2020 <- AustinPrecipitationData %>% filter(Year == "2020")  %>% select(-Year) %>% rename(Tot_Precip = "Total Precipitation")
+AustinPrecipitationData_2020
+
+# Merge the temperature data with the y2020 dataset
+y2020_temp_precip <- merge(y2020_temp, AustinPrecipitationData_2020, by = "Month")
+
+head(y2020_temp_precip)
+```
+
+```{r}
+# Bar plot to visualize average 'Trip Distance' of each 'Vehicle Type' by 'Month2', and 'Total Precipitation'
+trip_distance_tot_precip_by_month_h3 <- ggplot(data = y2020_temp_precip, aes(x = Month2, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  geom_line(aes(x = Month2, y = Tot_Precip, group = 1), color = "purple", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c('blue', 'red', 'orange')) + 
+  labs(x = 'Month', y = 'Trip Distance') +
+  labs(title = "Average Trip Distance and Total Precipitation by Month for each Vehicle Type") + 
+  labs(fill = "Vehicle Type") +
+  theme(axis.title.y.left = element_text(color = "black")) +
+  scale_y_continuous(name = "Trip Distance",
+                     breaks = seq(0, max(y2020_temp_precip$Trip.Distance), by = 10),
+                     labels = seq(0, max(y2020_temp_precip$Trip.Distance), by = 10)) +
+  theme(axis.title.y.right = element_text(color = "blue")) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ ., name = "Total Precipitation", 
+                        breaks = seq(0, max(y2020_temp_precip$Tot_Precip), by = 20),
+                        labels = seq(0, max(y2020_temp_precip$Tot_Precip), by = 20))) +
+  theme_minimal()  # Optionally, you can change the theme
+trip_distance_tot_precip_by_month_h3
+```
+
+```{r}
+# Bar plot to visualize average 'Trip Duration' of each 'Vehicle Type' by 'Month2', and 'Total Precipitation'
+trip_duration_tot_precip_by_month_h3 <- ggplot(data = y2020_temp_precip, aes(x = Month2, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  geom_line(aes(x = Month2, y = Tot_Precip, group = 1), color = "purple", size = 2, linetype = "dotted") +
+  scale_fill_manual(values = c('blue', 'red', 'orange')) + 
+  labs(x = 'Month', y = 'Trip Duration') +
+  labs(title = "Average Trip Duration and Total Precipitation by Month for each Vehicle Type") + 
+  labs(fill = "Vehicle Type") +
+  theme(axis.title.y.left = element_text(color = "black")) +
+  scale_y_continuous(name = "Trip Duration",
+                     breaks = seq(0, max(y2020_temp_precip$Trip.Duration), by = 10),
+                     labels = seq(0, max(y2020_temp_precip$Trip.Duration), by = 10)) +
+  theme(axis.title.y.right = element_text(color = "blue")) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ ., name = "Total Precipitation", 
+                        breaks = seq(0, max(y2020_temp_precip$Tot_Precip), by = 5),
+                        labels = seq(0, max(y2020_temp_precip$Tot_Precip), by = 5))) +
+  theme_minimal()  # Optionally, you can change the theme
+trip_duration_tot_precip_by_month_h3
+```
+
+
+## Hypothesis 4: correlation between council district percent satisfactory - trip duration/distance
+```{r}
+# creating y2020 with 'Percent.Satisfactory' column:
+
+#y2020_temp_precip_percent_satisfactory <- y2020_temp_precip 
+
+# filter NAs in the
+y2020_temp_precip_percent_satisfactory <- y2020_temp_precip_percent_satisfactory %>% filter(!is.na(y2020_temp_precip_percent_satisfactory$Percent.Satisfactory))
+
+head(y2020_temp_precip_percent_satisfactory)
+```
+
+
+```{r}
+# Bar plot to visualize Average Trip Distance by each Council District of each Vehicle Type.
+distance_district <- ggplot(data = y2020_temp_precip_percent_satisfactory, aes(x = Council.District, y = Trip.Distance, fill = Vehicle.Type))+
+  geom_bar(aes(y = Trip.Distance, x = Council.District), stat = 'summary', fun = mean, position = "dodge") +
+  # attempting to add numeric values of "Percent.Satisfactory" of each Council district on top of each bar
+  #text(x = 1:10, labels = y2020_temp_precip_percent_satisfactory$Percent.Satisfactory, pos = 3, col = "red", cex = 1.2) +
+  scale_x_continuous(name= "Council District", breaks = seq(0, 10, by = 1)) +
+  labs(y = 'Trip Distance') +
+  scale_fill_manual(values = c('red','green','blue')) + 
+  labs(title = "Average Trip Distance by Council District and Vehicle Type") + labs(fill = "Vehicle Type")
+distance_district
+```
+
+```{r}
+# Bar plot to visualize Average Trip Duration by each Council District of each Vehicle Type.
+duration_district <- ggplot(data = y2020_temp_precip_percent_satisfactory, aes(x = Council.District, y = Trip.Duration, fill = Vehicle.Type))+
+  geom_bar(aes(y = Trip.Duration, x = Council.District), stat = 'summary', fun = mean, position = "dodge") +
+  # attempting to add numeric values of "Percent.Satisfactory" of each Council district on top of each bar
+  #text(x = 1:10, labels = y2020_temp_precip_percent_satisfactory$Percent.Satisfactory, pos = 3, col = "red", cex = 1.2) +
+  scale_x_continuous(name= "Council District", breaks = seq(0, 10, by = 1)) +
+  labs(y = 'Trip Distance') +
+  scale_fill_manual(values = c('red','green','blue')) + 
+  labs(title = "Average Trip Duration by Council District and Vehicle Type") + labs(fill = "Vehicle Type")
+duration_district
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
