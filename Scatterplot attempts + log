@@ -1,0 +1,80 @@
+
+# trip_distance_avg_temp_h2 <- y2020_temp %>% group_by(Vehicle.Type, Average_Temperature) %>%
+#   mutate(
+#     Mean.Trip.Distance.T = mean(Trip.Distance, na.rm = T),
+#     Mean.Trip.Duration.T =  mean(Trip.Duration, na.rm = T)
+#     ) %>%
+#   ggplot(aes(x = Average_Temperature, y = Mean.Trip.Distance.T)) +
+#   geom_point(size = 2, aes(color = Vehicle.Type)) +
+#   geom_line(aes(group=Vehicle.Type)) +
+#   labs(title = "Average Trip Distance as Average Temperature changes ",
+#        x = "Average Temperature (*F)",
+#        y = "Trip Distance (meters)",
+#        fill = "Vehicle Type") +
+#   facet_wrap(~Vehicle.Type, ncol = 3)
+# trip_distance_avg_temp_h2
+# trip_distance_avg_temp_second_attempt = y2020_temp %>%
+#   filter(Vehicle.Type %in% c("bicycle", "scooter", "moped")) %>%
+#   group_by(Vehicle.Type, Average_Temperature) %>%
+#   summarise(Mean_Trip_Distance = mean(Trip.Distance, na.rm = TRUE)) %>%
+#   ungroup() %>%
+#   ggplot(aes(x = Average_Temperature, y = Mean_Trip_Distance)) +
+#   geom_line(aes(group = Vehicle.Type)) + 
+#   geom_point(size = 2, aes(color = Vehicle.Type)) +
+#   labs(
+#     title = "Mean Trip Distance in Relation to Average Monthly Temperature",
+#     x = "Average Temperature (*F)",
+#     y = "Mean Trip Distance (meters)",
+#     fill = "Vehicle Type"
+#   ) +
+#   facet_wrap(~Vehicle.Type, scales = "free") +
+#   theme_minimal()
+# 
+# trip_distance_avg_temp_second_attempt
+# library(ggplot2)
+# library(dplyr)
+# 
+# # Assuming your data frame is named 'y2020_temp'
+# # Replace 'y2020_temp' with the actual name of your data frame
+# 
+# # Filter and plot the data
+# y2020_temp %>%
+#   filter(Vehicle.Type %in% c("bicycle", "scooter", "moped")) %>%
+#   ggplot(aes(x = Average_Temperature, y = Trip.Distance)) +
+#   geom_point(size = 2, aes(color = Vehicle.Type)) +
+#   labs(
+#     title = "Average Trip Distance in Relation to Average Monthly Temperature",
+#     x = "Average Temperature (*F)",
+#     y = "Trip Distance (meters)",
+#     fill = "Vehicle Type"
+#   ) +
+#   facet_wrap(~Vehicle.Type, scales = "free") +
+#   theme_minimal()
+
+# y2020_temp %>%
+#   filter(Vehicle.Type %in% c("bicycle", "scooter", "moped")) %>%
+#   group_by(Vehicle.Type, Average_Temperature) %>%
+#   summarise(Mean_Trip_Distance = mean(Trip.Distance, na.rm = TRUE)) %>%
+#   ggplot(aes(x = Average_Temperature, y = log(Mean_Trip_Distance), color = Vehicle.Type)) +
+#   geom_point(size = 2) +
+#   labs(
+#     title = "Average Trip Distance in Relation to Average Monthly Temperature",
+#     x = "Average Temperature (*F)",
+#     y = "Mean Trip Distance (meters)",
+#     fill = "Vehicle Type"
+#   ) +
+#   facet_wrap(~Vehicle.Type, scales = "free") +
+#   theme_minimal()
+# 
+# y2020_temp %>%
+#   filter(Vehicle.Type %in% c("bicycle", "scooter", "moped")) %>%
+#   ggplot(aes(x = Average_Temperature, y = log(Trip.Distance))) +
+#   geom_point(size = 2, aes(color = Vehicle.Type)) +
+#   labs(
+#     title = "Average Trip Distance in Relation to Average Monthly Temperature",
+#     x = "Average Temperature (*F)",
+#     y = "Log(Trip Distance)",
+#     fill = "Vehicle Type"
+#   ) +
+#   facet_wrap(~Vehicle.Type, scales = "free") +
+#   theme_minimal()
