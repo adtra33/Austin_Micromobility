@@ -26,7 +26,6 @@ This dataset contains shared micromobility vehicle trip data from 1970 to 2022 r
 Anticipate Opportunities:
 
 Process- the methodology seems to be allowed since the data is given access to the public, as well as in a confined space. 
-Product - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
 
 Product - the product is socially desirable since it contains enough information about the statistics pertaining to different vehicles, as well as distances and time, and still keeping each individual private
 
