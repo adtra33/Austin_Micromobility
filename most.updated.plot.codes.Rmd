@@ -431,7 +431,71 @@ head(y2020_temp_precip_percent_satisfactory)
 # duration_district
 ```
 
+```{r}
+##Temp vs Distance
+ggplot(data = y2020_temp, aes(x = Month, y = Average_Temperature, fill = Vehicle.Type)) +
+  #create second axis: trip duration
+  scale_y_continuous(name = 'Temperature', limits = c(0,90), sec.axis = sec_axis( ~.*10 , name = 'Meters')) +
+  #create 1st bar graph for month and precipitation
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Average_Temperature, fill = 'blue'), position = position_nudge(x = -0.15), 
+           width = 0.3, stat = 'summary', fun = 'mean') +
+  #create 2nd bar graph for month and trip distance
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Trip.Distance/10, fill = 'red'), position = position_nudge(x = 0.15), 
+           width = 0.3, stat = 'summary') +
+  labs(title = 'Average Trip Distance in Relation to Average Monthly Temperature') +
+  theme(
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1,
+      size = 8
+    )) +
+  facet_wrap(~Vehicle.Type) + 
+  scale_fill_manual(name = 'Variable', values =c('blue'='blue','red'='red'), guide = 'legend', labels = c('Temperature','Distance'))
 
+#temp vs Duration
+ggplot(data = y2020_temp, aes(x = Month, y = Precipitation)) +
+  #create second axis: trip duration
+  scale_y_continuous(name = 'Temperature', limits = c(0,90), sec.axis = sec_axis( ~./10 , name = 'Minutes')) +
+  #create 1st bar graph for month and precipitation
+  geom_point(alpha = 1, aes(x = factor(Month, level_order_months), y = Average_Temperature, fill = 'blue'), position = position_nudge(x = -0.15), 
+           width = 0.3, stat = 'summary', fun = 'mean') +
+  geom_line(aes(x = factor(Month, level_order_months), y = Average_Temperature))+
+  #create 2nd bar graph for month and trip duration
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Trip.Duration*10, fill = 'red'), position = position_nudge(x = 0.15), 
+           width = 0.3, stat = 'summary') +
+  labs(title = 'Average Trip Duration in Relation to Average Monthly Temperature') + 
+  theme(
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1,
+      size = 8
+    )) +
+  facet_wrap(~Vehicle.Type) + 
+  scale_fill_manual(name = 'Variable', values =c('blue'='blue','red'='red'), guide = 'legend', labels = c('Temperature','Duration'))
+```
+
+```{r}
+#Testing replacing bars with points. 
+ggplot(data = y2020_temp, aes(x = Month, y = Precipitation)) +
+  #create second axis: trip duration
+  scale_y_continuous(name = 'Temperature', limits = c(0,90), sec.axis = sec_axis( ~./10 , name = 'Minutes')) +
+  #create 1st bar graph for month and precipitation
+  geom_point(alpha = 1, aes(x = factor(Month, level_order_months), y = Average_Temperature, fill = 'blue'), position = position_nudge(x = -0.15), 
+             width = 0.3, stat = 'summary', fun = 'mean') +
+  geom_line(aes(x = factor(Month, level_order_months), y = Average_Temperature))+
+  #create 2nd bar graph for month and trip duration
+  geom_bar(alpha = 1, aes(x = factor(Month, level_order_months), y = Trip.Duration*10, fill = 'red'), position = position_nudge(x = 0.15), 
+           width = 0.3, stat = 'summary') +
+  labs(title = 'Average Trip Duration in Relation to Average Monthly Temperature') + 
+  theme(
+    axis.text.x = element_text(
+      angle = 45,
+      hjust = 1,
+      size = 8
+    )) +
+  facet_wrap(~Vehicle.Type) + 
+  scale_fill_manual(name = 'Variable', values =c('blue'='blue','red'='red'), guide = 'legend', labels = c('Temperature','Duration'))
+```
 
 
 
