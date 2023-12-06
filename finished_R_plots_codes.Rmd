@@ -1,0 +1,331 @@
+---
+title: "project plot and clean dataset"
+author: "anh"
+date: "2023-11-21"
+output: html_document
+---
+
+### Plotting
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+
+```
+
+
+```{r}
+# Data from original micromobility dataset for the year 2020
+y2020 <- read.csv("Trips2020.csv")
+head(y2020)
+```
+
+ 
+```{r}
+# Create a new column 'Month2' by recoding the 'Month' column with an ordered factor
+y2020 <-  y2020 %>% mutate(Month2 = recode(Month, 'Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep','Oct', 'Nov','Dec'))
+
+# Create another new column 'DOW' by recoding the 'Day.of.Week' column with an ordered factor.
+y2020 <-  y2020  %>% mutate(DOW = recode(Day.of.Week + 1, 'Sun','Mon','Tues', 'Wed','Thurs','Fri', 'Sat'))
+
+# Choose only some specific columns:
+y2020 <- y2020 %>% select(-"Hour")
+
+# if stating district and ending district isn't the same, eliminate rows: ONLY AFTER 
+#y2020 <- y2020 %>% filter(Council.District..Start. == Council.District..End.)
+
+# filter NAs:
+head(y2020)
+```
+
+## Hypothesis 1: Trip Distance&Duration by Month&DOW without the contexts of Temperatre or Precipitation
+```{r}
+# Define the order of months for plotting.
+level_order_months <- c('Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep','Oct', 'Nov','Dec')
+
+# Define the order of days of the week for plotting.
+level_order_dow <- c('Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat')
+
+# Bar plot to visualize average 'Trip.Distance' by 'Month2' (months in order) and 'Vehicle.Type'.
+trip_distance_months_h1 <- ggplot(data = y2020, aes(x = Month2, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Month', y = 'Trip Distance') +
+  labs(title = "Average trip distance of each vehicle type throughout the year 2020") + labs(fill = "Vehicle Type")
+trip_distance_months_h1
+
+# Bar plot to visualize average 'Trip.Distance' by 'DOW' (day of the week) and 'Vehicle.Type'.
+trip_distance_DOW_h1 <- ggplot(data = y2020, aes(x = DOW, y = Trip.Distance, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Distance, x = factor(DOW, levels = level_order_dow)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('red','green','blue')) + labs(x = 'Days of the Week', y = 'Trip Distance') +
+  labs(title = "Average trip distance of each vehicle type throughout the week") + labs(fill = "Vehicle Type")
+trip_distance_DOW_h1
+```
+
+```{r}
+# Bar plot to visualize average 'Trip.Duration' by 'Month2' (months in order) and 'Vehicle.Type'.
+trip_duration_months_h1 <- ggplot(data = y2020, aes(x = Month2, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(Month2, levels = level_order_months)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('yellow','pink','orange')) + labs(x = 'Month', y = 'Trip Duration') +
+  labs(title = "Average trip duration of each vehicle type throughout the year") + labs(fill = "Vehicle Type")
+trip_duration_months_h1
+
+# Bar plot to visualize average 'Trip.Duration' by 'DOW' (day of the week) and 'Vehicle.Type'.
+trip_duration_DOW_h1 <- ggplot(data = y2020, aes(x = DOW, y = Trip.Duration, fill = Vehicle.Type)) + 
+  geom_bar(aes(y = Trip.Duration, x = factor(DOW, levels = level_order_dow)), stat = 'summary', fun = mean, position = "dodge") + 
+  scale_fill_manual(values = c('yellow','pink','orange')) + labs(x = 'Days of the Week', y = 'Trip Duration') +
+  labs(title = "Average trip duration of each vehicle type throughout the week") + labs(fill = "Vehicle Type")
+trip_duration_DOW_h1
+```
+
+
+## Hypothesis 2: Average Trip Duration&Distance in Relation to Average Monthly Temperature:
+
+```{r}
+# Temperature data
+Average_Temperature <- c(51.6, 56.3, 60.4, 69.5, 76.7, 82.2, 86.5, 89.9, 77, 71.7, 58.9, 55.8)
+
+# Create a new dataframe with Month and Average_Temperature
+temperature_data <- data.frame(Month2 = level_order_months, Average_Temperature = Average_Temperature)
+
+temperature_data
+
+# Merge the temperature data with the Trips2020 dataset
+y2020_temp <- merge(y2020, temperature_data, by = "Month2")
+
+head(y2020_temp)
+```
+
+# Scatter plot: Average Trip Duration&Distance in Relation to Average Monthly Temperature:
+```{r}
+# DISTANCE_AVERAGE TEMP:
+trip_distance_avg_temp_h2 <- y2020_temp %>% group_by(Average_Temperature) %>% 
+  mutate(
+    Mean.Trip.Distance.T = mean(Trip.Distance, na.rm = T), 
+    Mean.Trip.Duration.T =  mean(Trip.Duration, na.rm = T)
+    ) %>%
+  ggplot(aes(x = Average_Temperature, y = Mean.Trip.Distance.T)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  labs(title = "Average Trip Distance as Average Temperature changes ",
+       x = "Average Temperature (*F)",
+       y = "Trip Distance (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+trip_distance_avg_temp_h2
+```
+```{r}
+# DISTANCE_AVERAGE TEMP but with 2 variables in group_by():
+trip_distance_avg_temp_h2 <- y2020_temp %>% group_by(Average_Temperature) %>% 
+  mutate(
+    Mean.Trip.Distance.T = mean(log(Trip.Distance), na.rm = T), 
+    Mean.Trip.Duration.T =  mean(log(Trip.Duration), na.rm = T)
+    ) %>%
+  ggplot(aes(x = Average_Temperature, y = Mean.Trip.Distance.T)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  labs(title = "Average Trip Distance as Average Temperature changes ",
+       x = "Average Temperature (*F)",
+       y = "Trip Distance (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+trip_distance_avg_temp_h2
+```
+
+```{r}
+# DISTANCE_AVERAGE TEMP but with 2 variables in group_by():
+trip_distance_avg_temp_h2 <- y2020_temp %>% group_by(Average_Temperature, Vehicle.Type) %>% 
+  mutate(
+    Mean.Trip.Distance.T = mean(Trip.Distance, na.rm = T), 
+    Mean.Trip.Duration.T =  mean(Trip.Duration, na.rm = T)
+    ) %>%
+  ggplot(aes(x = Average_Temperature, y = Mean.Trip.Distance.T)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  labs(title = "Average Trip Distance as Average Temperature changes ",
+       x = "Average Temperature (*F)",
+       y = "Trip Distance (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+trip_distance_avg_temp_h2
+```
+
+```{r}
+# DISTANCE_AVERAGE TEMP but with 2 variables in group_by():
+trip_distance_avg_temp_h2 <- y2020_temp %>% group_by(Average_Temperature, Vehicle.Type) %>% 
+  mutate(
+    Mean.Trip.Distance.T = mean(log(Trip.Distance), na.rm = T), 
+    Mean.Trip.Duration.T =  mean(log(Trip.Duration), na.rm = T)
+    ) %>%
+  ggplot(aes(x = Average_Temperature, y = Mean.Trip.Distance.T)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  labs(title = "Average Trip Distance as Average Temperature changes ",
+       x = "Average Temperature (*F)",
+       y = "Trip Distance (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+trip_distance_avg_temp_h2
+```
+
+
+```{r}
+# DURATION_AVERAGE TEMP:
+trip_duration_avg_temp_h2 <- y2020_temp %>% group_by(Average_Temperature, Vehicle.Type) %>% 
+  mutate(
+    Mean.Trip.Distance.T = mean(Trip.Distance, na.rm = T), 
+    Mean.Trip.Duration.T =  mean(Trip.Duration, na.rm = T)
+    ) %>% 
+  ggplot(aes(x = Average_Temperature, y = Mean.Trip.Duration.T)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  # geom_text(aes(label = round(Mean.Trip.Distance, 2)), vjust = -0.5) +
+  labs(title = "Average Trip Duration as Average Temperature changes",
+       x = "Average Temperature (*F)",
+       y = "Trip Duration (second)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+  #scale_fill_manual(values = c('pink', 'green', 'orange'))
+trip_duration_avg_temp_h2
+
+head(y2020_temp)
+```
+******
+
+
+## Hypothesis 3: Average Trip Duration&Distance in Relation to Total Precipitation:
+```{r}
+# load the data
+AustinPrecipitationData <- read_csv("AustinPrecipitationData.csv")
+AustinPrecipitationData
+
+# filter out year 2020 info
+AustinPrecipitationData_2020 <- AustinPrecipitationData %>% filter(Year == "2020")  %>% select(-Year) %>% rename(Tot_Precip = "Total Precipitation")
+AustinPrecipitationData_2020
+
+# Merge the temperature data with the y2020 dataset
+y2020_temp_precip <- merge(y2020_temp, AustinPrecipitationData_2020, by = "Month")
+
+head(y2020_temp_precip)
+```
+# Scatter plot: Average Trip Duration&Distance in Relation to Average Total Precipitation:
+```{r}
+# DISTANCE_AVERAGE TEMP:
+trip_distance_tot_precip_h3 <- y2020_temp_precip %>% group_by(Tot_Precip) %>% 
+  summarize(
+    Mean.Trip.Distance.P = mean(Trip.Distance, na.rm = T), 
+    Mean.Trip.Duration.P =  mean(Trip.Duration, na.rm = T)
+    ) %>%
+  ggplot(aes(x = Tot_Precip, y = Mean.Trip.Distance.P)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  labs(title = "Average Trip Distance in Relation to Total Precipitation",
+       x = "Total Precipitation (inches)",
+       y = "Trip Distance (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+trip_distance_tot_precip_h3
+```
+
+```{r}
+# DURATION_AVERAGE TEMP:
+trip_duration_tot_precip_h3 <- y2020_temp_precip %>% group_by(Tot_Precip) %>% 
+  mutate(
+    Mean.Trip.Distance.P = mean(Trip.Distance, na.rm = T), 
+    Mean.Trip.Duration.P =  mean(Trip.Duration, na.rm = T)
+    ) %>% 
+  ggplot(aes(x = Tot_Precip, y = Mean.Trip.Duration.P)) +
+  geom_point(size = 2, aes(color = Vehicle.Type)) +
+  geom_line(aes(group=Vehicle.Type)) +
+  # geom_text(aes(label = round(Mean.Trip.Distance, 2)), vjust = -0.5) +
+  labs(title = "Average Trip Duration in Relation to Total Precipitation",
+       x = "Total Precipitation (inches)",
+       y = "Trip Duration (meters)",
+       fill = "Vehicle Type") +
+  facet_wrap(~Vehicle.Type, ncol = 3)
+  #scale_fill_manual(values = c('pink', 'green', 'orange'))
+trip_duration_tot_precip_h3
+
+head(y2020_temp_precip)
+```
+
+
+## Hypothesis 4: correlation between council district percent satisfactory - trip duration/distance
+# importing raw "street conditions" data and prepare for joining:
+```{r}
+# load the data
+Street_Conditions <- read_csv("Street_Conditions_by_Council_District_-_DRAFT.csv")
+#head(Street_Conditions)
+
+# rename Fiscal Year column to Year to make merging easier
+Street_Conditions <- Street_Conditions %>% rename(Year = `Fiscal Year`)
+#head(Street_Conditions)
+
+
+# Remove FY so the Year only contains the Year???????????????????
+Street_Conditions$Year <- sub("^FY", "", Street_Conditions$Year)
+#head(Street_Conditions)
+
+# Remove District and any 0's before the district so it's like "1", "2", "3"... etc????????????????????????
+Street_Conditions$'Council District' <- sub("^District 0*", "", Street_Conditions$`Council District`)
+head(Street_Conditions)
+
+# filter Street Conditions data to only 2020 data
+Street_Conditions_2020 <- Street_Conditions %>% filter(Year == 2020)
+
+
+# Only keep the columns Year, District, and Percent Satisfactory
+Street_Conditions_2020 <- subset(Street_Conditions_2020, select = -c(Year, Satisfactory, Unsatisfactory, Total))
+head(Street_Conditions_2020)
+```
+
+# preparing Trip2020 data to merge
+```{r}
+head(y2020_temp_precip)
+
+# Only keep observations where the Council District start matches the Council District End
+clean_y2020_temp_precip <- y2020_temp_precip %>%
+filter(Council.District..Start. == Council.District..End.)
+
+# Turn Start and End Columns to one single Council District
+clean_y2020_temp_precip <- clean_y2020_temp_precip %>% rename(`Council.District` = Council.District..End.) %>% select(-Council.District..Start.)
+head(clean_y2020_temp_precip)
+
+```
+
+# Merging the above data sets:
+```{r}
+# Merging the above data sets:
+y2020_temp_precip_percent_satisfactory <- left_join(clean_y2020_temp_precip, Street_Conditions_2020, by = c(Council.District = "Council District")) 
+head(y2020_temp_precip_percent_satisfactory)
+
+
+# filter NAs in the
+y2020_temp_precip_percent_satisfactory <- y2020_temp_precip_percent_satisfactory %>% filter(!is.na(y2020_temp_precip_percent_satisfactory$'Percent Satisfactory'))
+
+y2020_temp_precip_percent_satisfactory
+```
+
+# save file to Github folder for regression later
+```{r}
+write.csv(y2020_temp_precip_percent_satisfactory, file = "~/project/y2020_temp_precip_percent_satisfactory.csv", row.names = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
