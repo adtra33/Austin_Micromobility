@@ -73,6 +73,6 @@ kramdown:
 
 #theme
 remote_theme: pages-themes/tactile@v0.2.0
-title: "MICRO"
-description: "NONE"
-show_downloads: "true"
+title: MICRO
+description: NONE
+show_downloads: true
