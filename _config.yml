@@ -29,7 +29,7 @@ unpublished         : false
 
 # Plugins
 whitelist           : []
-plugins             : []
+plugins             : jekyll-remote-theme
 
 # Conversion
 markdown            : kramdown
@@ -71,4 +71,4 @@ kramdown:
   show_warnings     : false
 
 #theme
-theme: jekyll-theme-tactile
+remote_theme: pages-themes/tactile@v0.2.0
