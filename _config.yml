@@ -72,7 +72,7 @@ kramdown:
   show_warnings     : false
 
 #theme
-remote_theme: pages-themes/tactile@v0.2.0
+remote_theme: pages-themes/leap-day@v0.2.0
 title: MICRO
 description: NONE
 show_downloads: true
