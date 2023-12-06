@@ -29,7 +29,8 @@ unpublished         : false
 
 # Plugins
 whitelist           : []
-plugins             : []
+plugins:
+- jekyll-remote-theme
 
 # Conversion
 markdown            : kramdown
@@ -69,3 +70,6 @@ kramdown:
   hard_wrap         : false
   footnote_nr       : 1
   show_warnings     : false
+
+#theme
+remote_theme: pages-themes/tactile@v0.2.0
