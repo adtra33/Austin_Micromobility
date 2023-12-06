@@ -1,7 +1,3 @@
-layout: page
-title: "readme"
-permalink: /Austin-Micromobility/
-
 # Austin Micromobility
 ## Short Project Description
 This project aims to investigate the relationships and correlations between trip duration or trip distance in micromobility vehicles (e.g., electric scooters or bikes) and various factors in Austin, Texas. The variables of interest include year, month, day of the week, hour of the day, temperature, wind speed, and precipitation, Council District Start, Council District End, and Council District Street Condition Percent Satisfactory.
