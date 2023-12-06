@@ -1,3 +1,6 @@
+layout: page
+title: "readme"
+permalink: /Austin-Micromobility/
 
 # Austin Micromobility
 ## Short Project Description
