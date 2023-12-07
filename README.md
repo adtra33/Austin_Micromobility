@@ -18,8 +18,8 @@ The goals of this project are to identify correlations and trends between variab
 # Modeling
 Neural networks and random forest were used as classifiers to predict the type of vehicle based on past observations from the training set of the data. Random Forests can provide more robust and accurate predictions, handle a variety of data types, deal with noisy data, and avoid overfitting.
 The accuracy and effectiveness of the chosen classifiers were evaluated by comparing its performance using recall score, precision score and a confusion matrix. Recall is the ability of a classifier to capture all the positive samples of a class.
-![Neural Network Confusion Matrix] (/assets/image13.png)
-![Random Forest Confusion Matrix] (/assets/image1.png)
+![Neural Network Confusion Matrix](/assets/image13.png)
+![Random Forest Confusion Matrix](/assets/image1.png)
 Both the Random Forest and Neural Networks classifiers exhibit high accuracy in correctly identifying scooters, as evidenced by precision and recall scores close to 1. The confusion matrices for both models show a notable number of 'scooter' instances being correctly labeled as such. Imbalance in observations of vehicle types is the primary contributor to the classification inaccuracy for mopeds and bicycles
 # Limitations
 *   Initial data size was too large.
