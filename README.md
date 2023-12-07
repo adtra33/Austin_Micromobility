@@ -13,11 +13,11 @@ The goals of this project are to identify correlations and trends between variab
 *   The primary dataset used in our analysis is the ‘Shared Micro-mobility Vehicle Trips’ dataset provided by the city of Austin. This dataset contains individual micro-mobility trips from 2019 to 2022, totalling to 15 million rows each representing a trip. The criteria for a trip, as defined by the city of Austin, has a distance greater than 0.1 miles and less than 500 miles and has a duration that is less than 24 hours.
 *   In addition to our primary Micromobility dataset, we also used Austin weather data which was provided by the National Weather Service. The weather data contained the monthly average temperature and precipitation for the year of 2019 - 2021
 
-#Analysis
+# Analysis
 
-#Modeling
+# Modeling
 
-#Limitations
+# Limitations
 *   Initial data size was too large.
   This made it difficult for the models to find a common trend or correlation between data points and due to the smaller sample size, the accuracy of our results were naturally lower than the true values. 
 *   COVID.
