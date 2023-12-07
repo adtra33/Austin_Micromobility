@@ -14,7 +14,11 @@ The goals of this project are to identify correlations and trends between variab
 *   In addition to our primary Micromobility dataset, we also used Austin weather data which was provided by the National Weather Service. The weather data contained the monthly average temperature and precipitation for the year of 2019 - 2021
 
 # Analysis
+![Analysis 1](assets/image5.png) ![Analysis 1](assets/image5.png)
 
+![Analysis 2](assets/image9.png) ![Analysis 2](assets/image11.png)
+
+![Analysis 3](assets/image4.png) ![Analysis 3](assets/image7.png)
 
 # Modeling
 Neural networks and random forest were used as classifiers to predict the type of vehicle based on past observations from the training set of the data. Random Forests can provide more robust and accurate predictions, handle a variety of data types, deal with noisy data, and avoid overfitting.
@@ -23,7 +27,7 @@ The accuracy and effectiveness of the chosen classifiers were evaluated by compa
 ![Neural Network Confusion Matrix](/assets/image13.png) ![Random Forest Confusion Matrix](/assets/image1.png)
 
 Both the Random Forest and Neural Networks classifiers exhibit high accuracy in correctly identifying scooters, as evidenced by precision and recall scores close to 1. The confusion matrices for both models show a notable number of 'scooter' instances being correctly labeled as such. Imbalance in observations of vehicle types is the primary contributor to the classification inaccuracy for mopeds and bicycles
-![Precisions](/assets/image3.png)
+![Precisions1](/assets/image3.png) ![Precisions2](/assets/image6.png)
 
 # Limitations
 *   Initial data size was too large.
