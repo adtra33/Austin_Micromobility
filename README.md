@@ -16,9 +16,15 @@ The goals of this project are to identify correlations and trends between variab
 # Analysis
 ![Analysis 1](assets/image5.png) ![Analysis 1](assets/image5.png)
 
+Plotting Average Trip Distance vs Days of the Week across 2020, it is immediately obvious that compared to bicycles and mopeds, scooter trips are much farther on average across all months and days of the week. Scooters go particularly far during the Spring (April, May), and the weekend (Friday, Saturday, to a lesser extent Sunday). Average trip distance between bicycle and moped trips are comparable; neither vehicle varies in average trip distance across month or day, excepting a slightly higher trip distance for bicycles on Mondays.
+
 ![Analysis 2](assets/image9.png) ![Analysis 2](assets/image11.png)
 
+The bicycle trend in both graphs is not clearly apparent due to the absence of data for bicycles in high temperatures. This absence may stem from bicycles being unavailable during warmer weather. Furthermore, it could be a result of insufficient data input during days with elevated temperatures or even this specific year due to COVID-19 cases starting to rise. For the other vehicle types, mopeds and scooters, the graph is showing the moped line being a lot closer to linearity, whereas the scooter graph shows a much more sporadic line. Having said that, the relationships between average temperature and both log average trip duration and log average trip distance do not show clear correlations with one another.
+
 ![Analysis 3](assets/image4.png) ![Analysis 3](assets/image7.png)
+
+By plotting the average monthly trip distance next to the average monthly precipitation, we can see that there is not an obvious correlation between the two variables. Similarly, there does not appear to be a correlation between average duration and precipitation either. It is noticeable, however, that mopeds tend to have slightly higher average durations and distances when compared to scooters.
 
 # Modeling
 Neural networks and random forest were used as classifiers to predict the type of vehicle based on past observations from the training set of the data. Random Forests can provide more robust and accurate predictions, handle a variety of data types, deal with noisy data, and avoid overfitting.
